@@ -13,6 +13,7 @@ import Cart from "./Component/Cart/Cart";
 import CheckOut from "./Component/CheckOut/CheckOut";
 import ProtectedRoute from "./Component/ProtectedRoute/ProtectedRoute";
 import CategoriePage from "./Component/Categories/CategoriePage";
+import WishList from "./Component/WishList/WishList";
 export default function App() {
   let routes = createBrowserRouter([
     {
@@ -60,6 +61,14 @@ export default function App() {
           element: (
             <ProtectedRoute>
               <Cart />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "wishlist",
+          element: (
+            <ProtectedRoute>
+              <WishList />
             </ProtectedRoute>
           ),
         },

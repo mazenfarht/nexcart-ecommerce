@@ -23,49 +23,64 @@ export default function Navbar() {
           </NavLink>
 
           {/* LINKS */}
-          <div className="d-none d-lg-flex align-items-center gap-3">
-            <NavLink className="nav-link text-white" to="/home">
-              Home
-            </NavLink>
+          {userToken && (
+            <div className="d-none d-lg-flex align-items-center gap-3">
+              <NavLink className="nav-link text-white" to="/home">
+                Home
+              </NavLink>
 
-            <NavLink className="nav-link text-white" to="/products">
-              Products
-            </NavLink>
+              <NavLink className="nav-link text-white" to="/products">
+                Products
+              </NavLink>
 
-            <NavLink className="nav-link text-white" to="/">
-              Categories
-            </NavLink>
-          </div>
+              <NavLink className="nav-link text-white" to="/">
+                Categories
+              </NavLink>
+            </div>
+          )}
         </div>
 
-        {/* RIGHT SIDE (CART + LOGOUT) */}
+        {/* RIGHT SIDE */}
         <div className="d-none d-lg-flex align-items-center gap-3 ms-auto">
-          {/* CART */}
-          <Link
-            className="btn text-white position-relative border-0 d-flex align-items-center"
-            to="/cart"
-          >
-            Cart
-            <i className="fa-solid fa-cart-shopping ms-2" />
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
-              {cartCount}
-            </span>
-          </Link>
-
-          {/* LOGOUT */}
-          {userToken && (
-            <button className="btn text-white border-0" onClick={handleLogout}>
-              Logout
-            </button>
-          )}
-
-          {/* LOGIN / REGISTER (optional) */}
-          {!userToken && (
+          {userToken ? (
             <>
+              {/* CART */}
+              <Link
+                className="btn text-white position-relative border-0 d-flex align-items-center"
+                to="/cart"
+              >
+                Cart
+                <i className="fa-solid fa-cart-shopping " />
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                  {cartCount}
+                </span>
+              </Link>
+
+              {/* WISHLIST */}
+              <Link
+                className="btn text-white position-relative border-0 d-flex align-items-center"
+                to="/wishlist"
+              >
+                Wishlist
+                <i className="fa-solid fa-heart "></i>
+              </Link>
+
+              {/* LOGOUT */}
+              <button
+                className="btn text-white border-0"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              {/* LOGIN */}
               <NavLink className="nav-link text-white" to="/login">
                 Login
               </NavLink>
 
+              {/* REGISTER */}
               <NavLink className="nav-link text-white" to="/register">
                 Register
               </NavLink>
@@ -84,13 +99,14 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* MOBILE OFFCANVAS (unchanged idea) */}
+      {/* MOBILE OFFCANVAS */}
       <div
         className="offcanvas offcanvas-end bg-black text-white d-lg-none"
         id="mobileMenu"
       >
         <div className="offcanvas-header">
           <h5 className="text-white">Menu</h5>
+
           <button
             className="btn-close btn-close-white"
             data-bs-dismiss="offcanvas"
@@ -134,7 +150,18 @@ export default function Navbar() {
                 data-bs-dismiss="offcanvas"
               >
                 Cart
+                <i className="fa-solid fa-cart-shopping ms-2" />
                 <span className="ms-2 badge bg-warning">{cartCount}</span>
+              </Link>
+
+              {/* WISHLIST */}
+              <Link
+                className="btn text-white position-relative border-0 text-start"
+                to="/wishlist"
+                data-bs-dismiss="offcanvas"
+              >
+                Wishlist
+                <i className="fa-solid fa-heart ms-2"></i>
               </Link>
 
               {/* LOGOUT */}
@@ -148,6 +175,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
+              {/* LOGIN */}
               <NavLink
                 className="nav-link text-white"
                 to="/login"
@@ -156,6 +184,7 @@ export default function Navbar() {
                 Login
               </NavLink>
 
+              {/* REGISTER */}
               <NavLink
                 className="nav-link text-white"
                 to="/register"

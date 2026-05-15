@@ -4,7 +4,7 @@ import { StoreContext } from "../Context/StoreContext";
 import { nostify } from "../Utile/notify";
 
 export default function Product({ product }) {
-  let { changeCart } = useContext(StoreContext);
+  let { changeCart, addWishlist } = useContext(StoreContext);
   let [loadingId, setLoadinId] = useState(null);
 
   async function addProduct(productId) {
@@ -12,9 +12,22 @@ export default function Product({ product }) {
       setLoadinId(productId);
       let response = await changeCart(productId);
       console.log("Added to cart:", response);
-      nostify("Product added successfully", "success");
+      nostify("Product added to Cart", "success");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadinId(null);
+    }
+  }
+
+  async function addProductToWishList(productId) {
+    try {
+      setLoadinId(productId);
+      let response = await addWishlist(productId);
+      console.log("Added to wishlist:", response);
+      nostify("Product added to WishList", "success");
+    } catch (error) {
+      console.log(error.response.data);
     } finally {
       setLoadinId(null);
     }
@@ -52,6 +65,20 @@ export default function Product({ product }) {
                   </>
                 ) : (
                   "Add To Cart"
+                )}
+              </button>
+              <button
+                onClick={() => addProductToWishList(item._id)}
+                className="btn bg-main  text-white w-50 my-3  "
+                disabled={loadingId === item._id}
+              >
+                {loadingId === item._id ? (
+                  <>
+                    <i className="fa fa-spinner fa-spin me-2"></i>
+                    Adding...
+                  </>
+                ) : (
+                  "Add To WishList"
                 )}
               </button>
             </div>

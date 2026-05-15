@@ -83,12 +83,51 @@ export default function StoreContextProvider({ children }) {
   function login(token) {
     localStorage.setItem("token", token);
     setUserToken(token);
-    getCart(); // 🔥 مهم جدًا
+    getCart();
   }
 
   function logout() {
     localStorage.removeItem("token");
     setUserToken(null);
+  }
+
+  function getWishlist() {
+    let token = localStorage.getItem("token");
+
+    return axios
+      .get(`${baseUrl}/wishlist`, {
+        headers: { token },
+      })
+      .then((res) => res.data)
+      .catch((error) => error);
+  }
+
+  function addWishlist(productId) {
+    let token = localStorage.getItem("token");
+    return axios
+      .post(
+        `${baseUrl}/wishlist`,
+        {
+          productId: productId,
+        },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((error) => error);
+  }
+
+  function deleteWishList(productId) {
+    let token = localStorage.getItem("token");
+    return axios
+      .delete(`${baseUrl}/wishlist/${productId}`, {
+        headers: { token },
+      })
+      .then((res) => res.data)
+      .catch((error) => error);
   }
 
   useEffect(() => {
@@ -114,6 +153,9 @@ export default function StoreContextProvider({ children }) {
           logout,
           userToken,
           isLoading,
+          getWishlist,
+          addWishlist,
+          deleteWishList,
         }}
       >
         {children}
