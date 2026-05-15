@@ -1,11 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { baseUrl } from "../Utile/baseUrl";
 import { useParams } from "react-router-dom";
+import { StoreContext } from "../Context/StoreContext";
+import { nostify } from "../Utile/notify";
 
 export default function ProductDetailes() {
+  let { changeCart, addWishlist } = useContext(StoreContext);
+
   const [product, setProduct] = useState([]);
   const [mainImage, setMainImage] = useState([]);
+  let [loading, setLoadin] = useState(null);
 
   let { id } = useParams();
 
@@ -14,6 +19,32 @@ export default function ProductDetailes() {
     setProduct(data.data);
     setMainImage(data.data.imageCover);
   };
+
+  async function addProduct(productId) {
+    try {
+      setLoadin(productId);
+      let response = await changeCart(productId);
+      console.log("Added to cart:", response);
+      nostify("Product added to Cart", "success");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadin(null);
+    }
+  }
+
+  async function addProductToWishList(productId) {
+    try {
+      setLoadin(productId);
+      let response = await addWishlist(productId);
+      console.log("Added to wishlist:", response);
+      nostify("Product added to WishList", "success");
+    } catch (error) {
+      console.log(error.response.data);
+    } finally {
+      setLoadin(null);
+    }
+  }
 
   useEffect(() => {
     getProduct();
@@ -73,7 +104,45 @@ export default function ProductDetailes() {
             </div>
           </div>
 
-          <button className="btn bg-main text-white w-100">Add To Cart</button>
+          <div className="d-flex gap-3 mt-4 flex-wrap">
+            {/* Add To Cart */}
+            <button
+              onClick={() => addProduct(product._id)}
+              className="custom-cart-btn"
+              disabled={loading === product._id}
+            >
+              {loading === product._id ? (
+                <>
+                  <i className="fa fa-spinner fa-spin me-2"></i>
+                  Adding...
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-cart-shopping me-2"></i>
+                  Add To Cart
+                </>
+              )}
+            </button>
+
+            {/* Wishlist */}
+            <button
+              onClick={() => addProductToWishList(product._id)}
+              className="custom-wishlist-btn"
+              disabled={loading === product._id}
+            >
+              {loading === product._id ? (
+                <>
+                  <i className="fa fa-spinner fa-spin me-2"></i>
+                  Adding...
+                </>
+              ) : (
+                <>
+                  <i className="fa-regular fa-heart me-2"></i>
+                  Wishlist
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

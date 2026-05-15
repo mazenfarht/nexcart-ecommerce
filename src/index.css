@@ -492,3 +492,41 @@ a:hover {
 .text-main {
   color: #0aad0a;
 }
+
+.custom-cart-btn,
+.custom-wishlist-btn {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+  min-width: 190px;
+}
+
+.custom-cart-btn {
+  background: linear-gradient(135deg, #0aad0a, #0f9f0f);
+  color: white;
+  box-shadow: 0 8px 20px rgba(10, 173, 10, 0.3);
+}
+
+.custom-cart-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #099009, #087808);
+}
+
+.custom-wishlist-btn {
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+}
+
+.custom-wishlist-btn:hover {
+  background: #1e293b;
+  transform: translateY(-3px);
+}
+
+.custom-cart-btn:disabled,
+.custom-wishlist-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
