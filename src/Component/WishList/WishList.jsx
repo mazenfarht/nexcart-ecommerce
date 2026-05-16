@@ -25,7 +25,7 @@ export default function WishList() {
 
   async function deleteWishListpro(productId) {
     try {
-      let response = await deleteWishList(productId);
+      await deleteWishList(productId);
       setwishList((prev) => prev.filter((item) => item._id !== productId));
       notifyError("Product Deleted");
     } catch (error) {
@@ -46,6 +46,7 @@ export default function WishList() {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getWishListItems();
   }, []);

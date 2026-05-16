@@ -3,7 +3,7 @@ import { StoreContext } from "../Context/StoreContext";
 import Loading from "../Loading/Loading";
 import { notifyWarning } from "../../Component/Utile/notify";
 import { Link } from "react-router-dom";
-import CartStyle from "./CartStyle.css";
+import "./CartStyle.css";
 export default function Cart() {
   let { getCart, deleteProduct, updateQty } = useContext(StoreContext);
   let [cart, setCart] = useState([]);
@@ -44,6 +44,8 @@ export default function Cart() {
       console.log(error);
     }
   }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     cartProductDetailes();
   }, []);
