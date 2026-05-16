@@ -46,9 +46,9 @@ export default function CategoriePage() {
     }
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (id) getProductsByCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (

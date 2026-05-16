@@ -46,9 +46,9 @@ export default function ProductDetailes() {
     }
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // if (!product) return <p>Loading...</p>;
