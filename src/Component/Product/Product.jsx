@@ -1,36 +1,48 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { StoreContext } from "../Context/StoreContext";
-import { notifySuccess, notifyInfo } from "../../Component/Utile/notify";
+import {
+  notifySuccess,
+  notifyInfo,
+  notifyError,
+} from "../../Component/Utile/notify";
 import "./ProductStyle.css";
 export default function Product({ product }) {
-  let { changeCart, addWishlist } = useContext(StoreContext);
+  let { changeCart, addWishlist, userToken } = useContext(StoreContext);
   let [loadingId, setLoadinId] = useState(null);
   let [visibleCount, setVisibleCount] = useState(8);
 
   async function addProduct(productId) {
-    try {
-      setLoadinId(productId);
-      let response = await changeCart(productId);
-      console.log("Added to cart:", response);
-      notifySuccess("Product Added To Cart");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadinId(null);
+    if (!userToken) {
+      notifyError("You Should To Login To add Product");
+    } else {
+      try {
+        setLoadinId(productId);
+        let response = await changeCart(productId);
+        console.log("Added to cart:", response);
+        notifySuccess("Product Added To Cart");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadinId(null);
+      }
     }
   }
 
   async function addProductToWishList(productId) {
-    try {
-      setLoadinId(productId);
-      let response = await addWishlist(productId);
-      console.log("Added to wishlist:", response);
-      notifyInfo("Added To Wishlist");
-    } catch (error) {
-      console.log(error.response.data);
-    } finally {
-      setLoadinId(null);
+    if (!userToken) {
+      notifyError("You Should To Login To add Product");
+    } else {
+      try {
+        setLoadinId(productId);
+        let response = await addWishlist(productId);
+        console.log("Added to wishlist:", response);
+        notifyInfo("Added To Wishlist");
+      } catch (error) {
+        console.log(error.response.data);
+      } finally {
+        setLoadinId(null);
+      }
     }
   }
   return (

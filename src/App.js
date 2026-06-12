@@ -24,17 +24,17 @@ export default function App() {
         {
           index: true,
           element: (
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <HomePage />
+            // </ProtectedRoute>
           ),
         },
         {
           path: "home",
           element: (
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <HomePage />
+            // </ProtectedRoute>
           ),
         },
         {
@@ -76,9 +76,9 @@ export default function App() {
         {
           path: "contact-us",
           element: (
-            <ProtectedRoute>
-              <ContactUs />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <ContactUs />
+            // </ProtectedRoute>
           ),
         },
         { path: "*", element: <NotFoundPage /> },

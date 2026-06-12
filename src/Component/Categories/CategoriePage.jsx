@@ -3,23 +3,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { baseUrl } from "../Utile/baseUrl";
 import { StoreContext } from "../Context/StoreContext";
-import { notifySuccess } from "../../Component/Utile/notify";
+import { notifySuccess, notifyError } from "../../Component/Utile/notify";
 export default function CategoriePage() {
   let { id } = useParams();
   let [products, setProducts] = useState([]);
   let [loadingId, setLoadingId] = useState(null);
-  let { changeCart, addWishlist } = useContext(StoreContext);
+  let { changeCart, addWishlist, userToken } = useContext(StoreContext);
 
   async function addProduct(productId) {
-    try {
-      setLoadingId(productId);
-      let response = await changeCart(productId);
-      console.log("Added to cart:", response);
-      notifySuccess("Product added successfully");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoadingId(null);
+    if (!userToken) {
+      notifyError("You Should To Login To add Product");
+    } else {
+      try {
+        setLoadingId(productId);
+        let response = await changeCart(productId);
+        console.log("Added to cart:", response);
+        notifySuccess("Product added successfully");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingId(null);
+      }
     }
   }
 
@@ -34,15 +38,19 @@ export default function CategoriePage() {
   };
 
   async function addProductToWishList(productId) {
-    try {
-      setLoadingId(productId);
-      let response = await addWishlist(productId);
-      console.log("Added to wishlist:", response);
-      notifySuccess("Product added to WishList");
-    } catch (error) {
-      console.log(error.response.data);
-    } finally {
-      setLoadingId(null);
+    if (!userToken) {
+      notifyError("You Should To Login To add Product");
+    } else {
+      try {
+        setLoadingId(productId);
+        let response = await addWishlist(productId);
+        console.log("Added to wishlist:", response);
+        notifySuccess("Product added to WishList");
+      } catch (error) {
+        console.log(error.response.data);
+      } finally {
+        setLoadingId(null);
+      }
     }
   }
 
